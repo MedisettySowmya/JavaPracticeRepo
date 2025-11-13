@@ -11,6 +11,7 @@ public class InvertedTrianglePattern {
 			{
 				System.out.print("* ");
 			}
+			
 			System.out.println();
 		}
 

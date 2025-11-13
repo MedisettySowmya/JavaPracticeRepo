@@ -3,7 +3,8 @@ package arrays;
 public class MajorityElement {
 
 	public static void main(String[] args) {
-		int[] arr = { 9, 2, 3, 2,2, 1, 8, 2, 5, 2,2,2 };
+		//int[] arr = { 9, 2, 3, 2,2, 1, 8, 2, 5, 2,2,2 };
+		int[] arr = {1,2,3};
 		int majorityElement = findMajorityElement(arr);
 		System.out.println("Majority Element: " + majorityElement);
 	}

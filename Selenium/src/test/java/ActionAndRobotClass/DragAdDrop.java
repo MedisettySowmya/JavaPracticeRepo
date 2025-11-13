@@ -25,7 +25,7 @@ public class DragAdDrop {
 
 		driver.manage().window().maximize();
 
-		driver.manage().timeouts().implicitlyWait(10000, TimeUnit.MILLISECONDS);
+		
 
 		// Actions class method to drag and drop
 		Actions actions = new Actions(driver);

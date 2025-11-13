@@ -16,6 +16,7 @@ public class FindPairWithGivenSum {
 			for (int j = 1; j < arr.length; j++) {
 				if (i != j && arr[i] + arr[j] == targetNumber) {
 					System.out.print(arr[i] + " + " + arr[j] + " = " + targetNumber);
+					break;
 				}
 			}
 		}

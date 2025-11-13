@@ -3,12 +3,12 @@ package exceptionHandling;
 public class ThrowExample {
 	public static void main(String[] args) {
 		try {
-			checkAge(15);
+			checkAge(18);
 		} catch (CheckedCustomException e) {
 			System.out.println("Caught exception: " + e.getMessage());
 		}
 		try {
-			Checkgender('H');
+			Checkgender('M');
 		} catch (UnCheckedCustomException e) {
 			System.out.println("Caught unchecked exception: " + e.getMessage());
 		}

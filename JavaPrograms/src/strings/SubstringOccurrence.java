@@ -12,6 +12,7 @@ public class SubstringOccurrence {
 			String subStr = scanner.nextLine();
 
 			int index = mainStr.indexOf(subStr);
+			System.out.println(index);
 			int count = 0;
 			while (index != -1) {
 				count++;

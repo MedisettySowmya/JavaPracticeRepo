@@ -3,12 +3,14 @@ package ActionAndRobotClass;
 import java.awt.Robot;
 import java.awt.Toolkit;
 import java.awt.datatransfer.StringSelection;
+import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 import java.time.Duration;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
+import org.openqa.selenium.Point;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -25,16 +27,30 @@ public class NewEmail {
 
 		WebDriver driver = new ChromeDriver();
 		Robot robot = new Robot();
+
 		driver.manage().window().maximize();
 		driver.get("https://outlook.office.com/mail/");
 
-		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(15));
+		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
 
 		// Enter email
 		WebElement emailLocator = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("i0116")));
 		emailLocator.sendKeys("sowmyamedisetty@outlook.com");
 		Actions actions = new Actions(driver);
 		actions.sendKeys(Keys.ENTER).perform();
+
+		WebElement usePwdBtn = wait.until(ExpectedConditions
+				.visibilityOfElementLocated(By.xpath("//span[contains(text(),'Use your password')]")));
+
+		Point location = usePwdBtn.getLocation();
+		int x = location.getX();
+		int y = location.getY();
+
+		robot.mouseMove(x, y);
+
+		Thread.sleep(2000);
+
+		usePwdBtn.click();
 
 		// Enter password
 		WebElement passwordLocator = wait.until(ExpectedConditions.visibilityOfElementLocated(By.name("passwd")));
@@ -104,5 +120,55 @@ public class NewEmail {
 		robot.keyPress(KeyEvent.VK_ENTER);
 		robot.keyRelease(KeyEvent.VK_ENTER);
 
+		// Drag and Drop
+		// Locate drag sources and targets
+		WebElement sentItemsLocationfrom = driver.findElement(By.xpath("//div[@data-folder-name='sent items']"));
+		WebElement draftLocationTo = driver.findElement(By.xpath("//div[@data-folder-name='drafts']"));
+		Point from = sentItemsLocationfrom.getLocation();
+		Point to = draftLocationTo.getLocation();
+
+		// Move directly to source
+		robot.mouseMove(from.getX() + 100, from.getY() + 150);
+		Thread.sleep(1000);
+
+		// Press and hold left button
+		robot.mousePress(InputEvent.BUTTON1_DOWN_MASK);
+		Thread.sleep(1000);
+
+		// Instantly move to target
+		robot.mouseMove(to.getX() + 100, to.getY() + 150);
+		Thread.sleep(1000);
+
+		// Release mouse
+		robot.mouseRelease(InputEvent.BUTTON1_DOWN_MASK);
+
+		// Get BEFORE text (3rd element)
+		WebElement before = driver.findElement(By.xpath("(//span[@class='gtcPn _8g73 LPIso'])[3]"));
+		String beforeText = before.getText();
+		System.out.println("Before drag, 3rd element = " + beforeText);
+
+		// Example: Sent → Drafts
+		if (beforeText.equals("Drafts")) {
+			actions.dragAndDrop(draftLocationTo, sentItemsLocationfrom);
+		} else {
+			actions.dragAndDrop(sentItemsLocationfrom, draftLocationTo);
+		}
+
+		actions.clickAndHold(sentItemsLocationfrom).moveToElement(draftLocationTo).release().build().perform();
+
+		Thread.sleep(3000); // allow UI to update
+
+		// Get AFTER text (3rd element)
+		WebElement after = driver.findElement(By.xpath("(//span[@class='gtcPn _8g73 LPIso'])[3]"));
+		String afterText = after.getText();
+		System.out.println("After drag, 3rd element = " + afterText);
+
+		// Validation
+		if (afterText.equalsIgnoreCase("Sent Items")) {
+			System.out.println("PASS: Source is dropped into target successfully");
+			driver.close();
+		} else {
+			System.out.println("FAIL: Drag and Drop did not work");
+		}
 	}
 }

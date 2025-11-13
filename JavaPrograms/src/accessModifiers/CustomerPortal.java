@@ -2,7 +2,9 @@ package accessModifiers;
 
 import accessModifierPackage2.CustomerDetails;
 
-public class CustomerPortal {
+public class CustomerPortal extends CustomerDetails{
+	
+	
 
 	public static void main(String[] args) {
 		BankAccount account = new BankAccount(10000);
@@ -21,9 +23,10 @@ public class CustomerPortal {
 		logger.log("Transaction completed.");
 		
 		CustomerDetails customer = new CustomerDetails();
+		CustomerPortal customerportal = new CustomerPortal();
         //customer.getCustomerAddress("221B Baker Street, London");  -- cannot be accessable default modifier cannnot access other package 
         customer.showCustomerInfo("Nina", 29);      //  public
-        //customer.getCustomerAccountType("Gold"); // ❌ protected – not subclass
+        customerportal.getCustomerAccountType("Gold"); // ❌ protected – not subclass
         //customer.getCustomerAddress("Mumbai");   // ❌ default – different package
         //customer.getCustomerPAN("ZZZ0000X");     // ❌ private – inaccessible
 

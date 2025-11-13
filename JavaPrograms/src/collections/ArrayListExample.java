@@ -15,6 +15,7 @@ public class ArrayListExample {
 		 names.add("Indhu");
 		 names.addLast("Medisetty");
 		 names.add(1, "Arjun");
+		 names.add(5,"last");
 		 
 		 System.err.println("Names:" + names);
 		 
